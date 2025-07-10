@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>なみのり人生</title>
+
+  <!-- Tailwind CSS for styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Custom styles to complement Tailwind */
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #FFFFFF;
+      color: #1a202c;
+    }
+
+    /* Accent color variable */
+    :root {
+      --accent-color: #ADD8E6;
+      --accent-color-darker: #9BC9D9;
+    }
+
+    .accent-bg {
+      background-color: var(--accent-color);
+    }
+
+    .accent-bg-darker {
+      background-color: var(--accent-color-darker);
+    }
+
+    .accent-text {
+      color: var(--accent-color);
+    }
+
+    .accent-border {
+      border-color: var(--accent-color);
+    }
+
+    /* Accordion Slider Styles */
+    .accordion-container {
+      display: flex;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .accordion-panel {
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      height: 100%;
+      border-radius: 1.5rem;
+      /* 24px */
+      color: white;
+      cursor: pointer;
+      flex: 0.5;
+      margin: 0.5rem;
+      /* 8px */
+      position: relative;
+      transition: flex 0.7s cubic-bezier(0.05, 0.6, 0.4, 0.9);
+      -webkit-transition: flex 0.7s cubic-bezier(0.05, 0.6, 0.4, 0.9);
+    }
+
+    .accordion-panel.active {
+      flex: 5;
+    }
+
+    .accordion-panel h3 {
+      position: absolute;
+      bottom: 1.5rem;
+      /* 24px */
+      left: 1.5rem;
+      /* 24px */
+      margin: 0;
+      opacity: 0;
+      font-size: 3.5rem;
+      /* 24px */
+      /*text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);*/
+      transition: opacity 0.3s ease-in 0.4s;
+      background-color: rgba(0, 0, 0, .5);
+    }
+
+    .accordion-panel.active h3 {
+      opacity: 1;
+    }
+
+    /* Navbar transparency effect on scroll */
+    .nav-transparent {
+      background-color: transparent;
+    }
+
+    .nav-scrolled {
+      background-color: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Modal styles */
+    .modal {
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .modal-content {
+      transition: transform 0.3s ease;
+    }
+
+    /* Ensure responsive behavior for accordion on smaller screens */
+    @media (max-width: 768px) {
+      .accordion-container {
+        flex-direction: column;
+        height: 100vh;
+      }
+
+      .accordion-panel {
+        margin: 0.25rem 0.5rem;
+        height: 100%;
+      }
+
+      .accordion-panel h3 {
+        font-size: 1.125rem;
+        /* 18px */
+        bottom: 1rem;
+        left: 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body class="bg-white">
+
+  <!-- Navigation Bar -->
+  <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 nav-transparent">
+    <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="#" class="text-2xl font-bold text-gray-800">Naminori</a>
+      <div class="hidden md:flex items-center space-x-8">
+        <a href="#home" class="text-gray-600 hover:text-black">ホーム</a>
+        <a href="#products" class="text-gray-600 hover:text-black">サービス</a>
+        <a href="#about" class="text-gray-600 hover:text-black">会社情報</a>
+        <a href="#contact" class="px-4 py-2 rounded-full text-white accent-bg hover:accent-bg-darker transition-colors">問い合わせ</a>
+      </div>
+      <!-- Mobile Menu Button -->
+      <button id="mobile-menu-button" class="md:hidden focus:outline-none">
+        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+      </button>
+    </nav>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+      <a href="#home" class="block py-2 text-gray-600 hover:text-black">ホーム</a>
+      <a href="#products" class="block py-2 text-gray-600 hover:text-black">サービス</a>
+      <a href="#about" class="block py-2 text-gray-600 hover:text-black">会社情報</a>
+      <a href="#contact" class="block mt-2 px-4 py-2 rounded-full text-white accent-bg hover:accent-bg-darker transition-colors text-center">問い合わせ</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section: Accordion Slider -->
+    <section id="home" class="accordion-container">
+      <div class="accordion-panel active" style="background-image: url('./aaa.png');">
+        <h3>ウエディングフォト/ムービー/アイテム</h3>
+      </div>
+      <div class="accordion-panel" style="background-image: url('./bbb.png');">
+        <h3>オリジナルグッズやペット七五三</h3>
+      </div>
+      <div class="accordion-panel" style="background-image: url('./ccc.png');">
+        <h3>メンカラグッズや推し活ウェディング</h3>
+      </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="py-20">
+      <div class="container mx-auto px-6">
+        <h2 class="text-4xl font-bold text-center text-gray-800 mb-2">提供するサービス</h2>
+        <p class="text-center text-gray-600 mb-12">
+          思い出を形にし、思い出の場所を第二のふるさとにするビジネス
+        </p>
+        <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Product Card 1 -->
+          <div class="product-card bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
+            <img src="./a.png" alt="Alpine Hike">
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">ウエディングフォト/ムービー</h3>
+              <p class="text-gray-600 mb-4 product-description">ウエディングフォト/ムービー/アイテムなど家族に関わるビジネス</p>
+              <button class="book-now-btn w-full px-4 py-2 rounded-full text-white accent-bg hover:accent-bg-darker transition-colors" data-price="¥200,000〜">予約</button>
+            </div>
+          </div>
+          <!-- Product Card 2 -->
+          <div class="product-card bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
+            <img src="./b.png" alt="Coastal Getaway">
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">オリジナルグッズやペット七五三</h3>
+              <p class="text-gray-600 mb-4 product-description">オリジナルグッズやペット七五三など家族に関わるビジネス</p>
+              <button class="book-now-btn w-full px-4 py-2 rounded-full text-white accent-bg hover:accent-bg-darker transition-colors" data-price="¥20,000〜">予約</button>
+            </div>
+          </div>
+          <!-- Product Card 3 -->
+          <div class="product-card bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
+            <img src="./c.png" alt="City Explorer">
+            <div class="p-6">
+              <h3 class="text-xl font-bold mb-2">メンカラグッズや推し活ウェディング</h3>
+              <p class="text-gray-600 mb-4 product-description">メンカラグッズや推し活ウェディングになど推し活に関するビジネスを展開</p>
+              <button class="book-now-btn w-full px-4 py-2 rounded-full text-white accent-bg hover:accent-bg-darker transition-colors" data-price="¥5,000~">予約</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="bg-gray-50 py-20">
+      <div class="container mx-auto px-6">
+        <h2 class="text-4xl font-bold text-center text-gray-800 mb-12"> 
+          Naminoriがお届けしたい世界観
+        </h2>
+        <div class="max-w-3xl mx-auto text-center text-gray-600 text-lg mb-16">
+          <p>毎日、仕事に勉強に忙しい御子さん。唯一の癒やしは愛娘（犬）のポチちゃん。ポチちゃんのグッズを求めて検索をしたら、「なみのり人生」のパーソナライズグッズに出会いました。ポチちゃんとの思い出を形にしてもらいホクホク。グッズと一緒に御宿の方からのお手紙をいただいて心がじんわりしました。案内にあったポチちゃんの七五三を御宿で…。その後、素敵な人とも巡り会えてウェディングフォトを御宿のビーチで行い、家族３人は今では御宿なみのりバーチャル市民です。</p>
+        </div>
+        <h3 class="text-3xl font-bold text-center text-gray-800 mb-12">メンバー</h3>
+        <div class="flex flex-wrap justify-center gap-12">
+          <!-- Team Member 1 -->
+          <div class="text-center">
+            <img src="https://placehold.co/128x128/e2e8f0/333?text=KI" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md" alt="Jane Doe">
+            <h4 class="text-xl font-bold">Kanehisa Izumi</h4>
+            <p class="text-gray-500">Co-Founder</p>
+          </div>
+          <!-- Team Member 2 -->
+          <div class="text-center">
+            <img src="https://placehold.co/128x128/e2e8f0/333?text=MY" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md" alt="John Smith">
+            <h4 class="text-xl font-bold">Moriya Yuki</h4>
+            <p class="text-gray-500">Co-Founder</p>
+          </div>
+          <!-- Team Member 3 -->
+          <div class="text-center">
+            <img src="https://placehold.co/128x128/e2e8f0/333?text=OT" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md" alt="Emily Stone">
+            <h4 class="text-xl font-bold">Ozawa Tomoko</h4>
+            <p class="text-gray-500">Co-Founder</p>
+          </div>
+           <!-- Team Member 4 -->
+          <div class="text-center">
+            <img src="https://placehold.co/128x128/e2e8f0/333?text=SY" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md" alt="Emily Stone">
+            <h4 class="text-xl font-bold">Shao Yulu</h4>
+            <p class="text-gray-500">Co-Founder</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20">
+      <div class="container mx-auto px-6 text-center">
+        <h2 class="text-4xl font-bold text-gray-800 mb-4">お気軽にご質問・ご相談ください</h2>
+        <p class="text-gray-600 mb-8">better_life@naminori.co.jp</p>
+        <a href="mailto:contact@aura.com" class="inline-block px-8 py-4 rounded-full text-white accent-bg hover:accent-bg-darker transition-colors text-lg font-semibold">問い合わせ</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-8">
+    <div class="container mx-auto px-6 text-center">
+      <p>&copy; 2025 なみのり人生株式会社. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Product Detail Modal -->
+  <div id="product-modal" class="modal fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 invisible opacity-0">
+    <div id="modal-content" class="modal-content bg-white rounded-lg shadow-2xl w-11/12 md:w-3/4 lg:w-1/2 max-w-4xl mx-auto transform scale-95">
+      <div class="relative">
+        <!-- Close Button -->
+        <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 z-10">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-0">
+          <!-- Modal Image -->
+          <div>
+            <img id="modal-img" src="" class="w-full h-full object-cover rounded-l-lg" alt="Product Image">
+          </div>
+          <!-- Modal Details -->
+          <div class="p-8 flex flex-col justify-center">
+            <h2 id="modal-title" class="text-3xl font-bold mb-4">Product Title</h2>
+            <p id="modal-description" class="text-gray-600 mb-6">Product description goes here.</p>
+            <div class="flex items-baseline mb-8">
+              <span id="modal-price" class="text-3xl font-bold text-gray-800 mr-2">$0</span>
+              <span class="text-gray-500">/ package</span>
+            </div>
+            <button class="w-full py-3 rounded-full text-white accent-bg hover:accent-bg-darker transition-colors font-bold text-lg">購入へ</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // --- Accordion Slider Logic ---
+      const panels = document.querySelectorAll('.accordion-panel');
+      let currentActiveIndex = 0; // The first panel is active by default in the HTML
+      let autoplayInterval;
+
+      function setActivePanel(index) {
+        // Remove the 'active' class from all panels
+        panels.forEach(p => p.classList.remove('active'));
+        // Add the 'active' class to the target panel
+        panels[index].classList.add('active');
+      }
+
+      function startAutoplay() {
+        // Clear any existing interval to prevent multiple loops running at once
+        clearInterval(autoplayInterval);
+        autoplayInterval = setInterval(() => {
+          // Increment the index
+          currentActiveIndex++;
+          // If the index is out of bounds, loop back to the start
+          if (currentActiveIndex >= panels.length) {
+            currentActiveIndex = 0;
+          }
+          setActivePanel(currentActiveIndex);
+        }, 5000); // Set to a 5-second interval
+      }
+      // Set up click event listeners for manual control
+      panels.forEach((panel, index) => {
+        panel.addEventListener('click', () => {
+          currentActiveIndex = index; // Set the current index to the one that was clicked
+          setActivePanel(index); // Make the clicked panel active
+          startAutoplay(); // Restart the autoplay timer from this point
+        });
+      });
+      // Kick off the autoplay when the page loads
+      startAutoplay();
+      // --- Navbar Scroll Effect ---
+      const navbar = document.getElementById('navbar');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+          navbar.classList.add('nav-scrolled');
+          navbar.classList.remove('nav-transparent');
+        } else {
+          navbar.classList.remove('nav-scrolled');
+          navbar.classList.add('nav-transparent');
+        }
+      });
+      // --- Mobile Menu Toggle ---
+      const mobileMenuButton = document.getElementById('mobile-menu-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+      mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+      // --- Smooth Scrolling for Nav Links ---
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          // Close mobile menu if open
+          if (!mobileMenu.classList.contains('hidden')) {
+            mobileMenu.classList.add('hidden');
+          }
+          document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+          });
+        });
+      });
+      // --- Product Modal Logic ---
+      const productModal = document.getElementById('product-modal');
+      const modalContent = document.getElementById('modal-content');
+      const closeModalBtn = document.getElementById('close-modal-btn');
+      const bookNowBtns = document.querySelectorAll('.book-now-btn');
+      const modalImg = document.getElementById('modal-img');
+      const modalTitle = document.getElementById('modal-title');
+      const modalDescription = document.getElementById('modal-description');
+      const modalPrice = document.getElementById('modal-price');
+      bookNowBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const card = e.target.closest('.product-card');
+          const imgSrc = card.querySelector('img').src;
+          const title = card.querySelector('h3').innerText;
+          const description = card.querySelector('.product-description').innerText;
+          const price = e.target.dataset.price;
+          // Populate modal
+          modalImg.src = imgSrc;
+          modalTitle.innerText = title;
+          modalDescription.innerText = description;
+          modalPrice.innerText = price;
+          // Show modal
+          openModal();
+        });
+      });
+
+      function openModal() {
+        productModal.classList.remove('invisible', 'opacity-0');
+        modalContent.classList.remove('scale-95');
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+      }
+
+      function closeModal() {
+        productModal.classList.add('invisible', 'opacity-0');
+        modalContent.classList.add('scale-95');
+        document.body.style.overflow = 'auto';
+      }
+      closeModalBtn.addEventListener('click', closeModal);
+      // Close modal if user clicks on the background overlay
+      productModal.addEventListener('click', (e) => {
+        if (e.target === productModal) {
+          closeModal();
+        }
+      });
+      // Close modal with Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !productModal.classList.contains('invisible')) {
+          closeModal();
+        }
+      });
+    });
+  </script>
+
+</body>
+
+</html>
