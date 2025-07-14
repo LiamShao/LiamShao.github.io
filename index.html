@@ -1,428 +1,872 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>なみのり人生</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>なみのり人生株式会社 - 想い出をカタチに、想い出の場所を第二のふるさとに</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <!-- Tailwind CSS for styling -->
-  <script src="https://cdn.tailwindcss.com"></script>
+        body {
+            font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
 
-  <!-- Google Fonts: Inter -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+        /* ナビゲーション */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
 
-  <style>
-    /* Custom styles to complement Tailwind */
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #FFFFFF;
-      color: #1a202c;
-    }
+        nav.scrolled {
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
 
-    /* Accent color variable */
-    :root {
-      --accent-color: #ADD8E6;
-      --accent-color-darker: #9BC9D9;
-    }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
 
-    .accent-bg {
-      background-color: var(--accent-color);
-    }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
 
-    .accent-bg-darker {
-      background-color: var(--accent-color-darker);
-    }
+        .logo::before {
+            /* content: "🌊";
+            font-size: 1.5rem; */
+            /* background-image: url(./logo.png); */
+        }
 
-    .accent-text {
-      color: var(--accent-color);
-    }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
 
-    .accent-border {
-      border-color: var(--accent-color);
-    }
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
 
-    /* Accordion Slider Styles */
-    .accordion-container {
-      display: flex;
-      width: 100%;
-      height: 100vh;
-      overflow: hidden;
-    }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #ff6b6b;
+            transition: width 0.3s ease;
+        }
 
-    .accordion-panel {
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      height: 100%;
-      border-radius: 1.5rem;
-      /* 24px */
-      color: white;
-      cursor: pointer;
-      flex: 0.5;
-      margin: 0.5rem;
-      /* 8px */
-      position: relative;
-      transition: flex 0.7s cubic-bezier(0.05, 0.6, 0.4, 0.9);
-      -webkit-transition: flex 0.7s cubic-bezier(0.05, 0.6, 0.4, 0.9);
-    }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
 
-    .accordion-panel.active {
-      flex: 5;
-    }
+        .nav-links a:hover {
+            color: #ff6b6b;
+        }
 
-    .accordion-panel h3 {
-      position: absolute;
-      bottom: 1.5rem;
-      /* 24px */
-      left: 1.5rem;
-      /* 24px */
-      margin: 0;
-      opacity: 0;
-      font-size: 3.5rem;
-      /* 24px */
-      /*text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);*/
-      transition: opacity 0.3s ease-in 0.4s;
-      background-color: rgba(0, 0, 0, .5);
-    }
+        /* ヒーローセクション */
+        .hero {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
 
-    .accordion-panel.active h3 {
-      opacity: 1;
-    }
+        .hero-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
 
-    /* Navbar transparency effect on scroll */
-    .nav-transparent {
-      background-color: transparent;
-    }
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
 
-    .nav-scrolled {
-      background-color: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    }
+        .hero-slide.active {
+            opacity: 1;
+        }
 
-    /* Modal styles */
-    .modal {
-      transition: opacity 0.3s ease, visibility 0.3s ease;
-    }
+        .hero-slide::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+        }
 
-    .modal-content {
-      transition: transform 0.3s ease;
-    }
+        .hero-slide:nth-child(1) {
+            background-image: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%),
+                              url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"><rect width="1920" height="1080" fill="%23667eea"/><circle cx="960" cy="540" r="300" fill="%23764ba2" opacity="0.3"/><path d="M0,1080 Q480,800 960,1080 T1920,1080 V1080 H0 Z" fill="%23fff" opacity="0.1"/></svg>');
+        }
 
-    /* Ensure responsive behavior for accordion on smaller screens */
-    @media (max-width: 768px) {
-      .accordion-container {
-        flex-direction: column;
-        height: 100vh;
-      }
+        .hero-slide:nth-child(2) {
+            background-image: linear-gradient(135deg, rgba(255, 107, 107, 0.8) 0%, rgba(255, 154, 158, 0.8) 100%),
+                              url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"><rect width="1920" height="1080" fill="%23ff6b6b"/><circle cx="1200" cy="300" r="200" fill="%23ff9a9e" opacity="0.5"/><circle cx="400" cy="700" r="150" fill="%23ffeaa7" opacity="0.3"/><path d="M0,800 Q960,600 1920,800 V1080 H0 Z" fill="%23fff" opacity="0.1"/></svg>');
+        }
 
-      .accordion-panel {
-        margin: 0.25rem 0.5rem;
-        height: 100%;
-      }
+        .hero-slide:nth-child(3) {
+            background-image: linear-gradient(135deg, rgba(52, 211, 153, 0.8) 0%, rgba(34, 197, 94, 0.8) 100%),
+                              url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"><rect width="1920" height="1080" fill="%2334d399"/><circle cx="600" cy="400" r="250" fill="%2322c55e" opacity="0.4"/><circle cx="1400" cy="600" r="180" fill="%23a7f3d0" opacity="0.3"/><path d="M0,900 Q480,700 960,900 T1920,900 V1080 H0 Z" fill="%23fff" opacity="0.1"/></svg>');
+        }
 
-      .accordion-panel h3 {
-        font-size: 1.125rem;
-        /* 18px */
-        bottom: 1rem;
-        left: 1rem;
-      }
-    }
-  </style>
+        .hero-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            z-index: 10;
+            max-width: 800px;
+            padding: 2rem;
+        }
+
+        .hero-indicators {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 10;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator.active {
+            background: white;
+            transform: scale(1.2);
+        }
+
+        .hero-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-nav:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .hero-nav.prev {
+            left: 30px;
+        }
+
+        .hero-nav.next {
+            right: 30px;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #ff6b6b;
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        /* セクション共通スタイル */
+        .section {
+            padding: 5rem 0;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2563eb;
+            position: relative;
+        }
+
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: #ff6b6b;
+        }
+
+        /* サービス紹介 */
+        .services {
+            background: #f8fafc;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        .service-card {
+            /* background: white; */
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .service-card::before {
+            /* content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2); */
+            content: "";
+            position: absolute;
+            inset: 0; /* 等同于 top: 0; right: 0; bottom: 0; left: 0; */
+            background: rgba(255, 255, 255, 0.85); /* 半透明黑色遮罩 */
+            z-index: 1;
+        }
+
+        .service-card > * {
+            position: relative;
+            z-index: 2; /* 确保内容在遮罩层之上 */
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #2563eb;
+        }
+
+        .service-card p {
+            color: #000;
+            line-height: 1.8;
+        }
+
+        /* スタッフ紹介 */
+        .staff-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        .staff-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .staff-card:hover {
+            transform: scale(1.05);
+        }
+
+        .staff-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+        }
+
+        .staff-info {
+            padding: 1.5rem;
+        }
+
+        .staff-info h3 {
+            color: #2563eb;
+            margin-bottom: 0.5rem;
+        }
+
+        .staff-info p {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* なみのり市民 */
+        .citizenship {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .citizenship h2 {
+            color: white;
+        }
+
+        .citizenship-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .citizenship-benefits {
+            /* display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0; */
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 两列 */
+            grid-template-rows: repeat(2, auto);   /* 两行，根据内容自动高度 */
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .benefit-item {
+            font-size: larger;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .benefit-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .benefit-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* アクセス */
+        .access {
+            background: #f8fafc;
+        }
+
+        .access-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            padding: 0 2rem;
+        }
+
+        .access-info {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .access-info h3 {
+            color: #2563eb;
+            margin-bottom: 1rem;
+        }
+
+        .map-placeholder {
+            /* background: #e2e8f0; */
+            background-image: url(./ddd.png);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            /* height: 300px; */
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 1.2rem;
+        }
+
+        /* フッター */
+        footer {
+            background: #1a202c;
+            color: white;
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #667eea;
+        }
+
+        /* レスポンシブデザイン */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .section {
+                padding: 3rem 0;
+            }
+
+            .section h2 {
+                font-size: 2rem;
+            }
+
+            .access-content {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        /* スクロールアニメーション */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* パーティクルアニメーション */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+    </style>
 </head>
+<body>
+    <!-- パーティクル背景 -->
+    <div class="particles" id="particles"></div>
 
-<body class="bg-white">
-
-  <!-- Navigation Bar -->
-  <header id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 nav-transparent">
-    <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-      <a href="#" class="text-2xl font-bold text-gray-800">Naminori</a>
-      <div class="hidden md:flex items-center space-x-8">
-        <a href="#home" class="text-gray-600 hover:text-black">ホーム</a>
-        <a href="#products" class="text-gray-600 hover:text-black">サービス</a>
-        <a href="#about" class="text-gray-600 hover:text-black">会社情報</a>
-        <a href="#contact" class="px-4 py-2 rounded-full text-white accent-bg hover:accent-bg-darker transition-colors">問い合わせ</a>
-      </div>
-      <!-- Mobile Menu Button -->
-      <button id="mobile-menu-button" class="md:hidden focus:outline-none">
-        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-        </svg>
-      </button>
+    <!-- ナビゲーション -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <img src="./logo.png" style="width: 2rem;"/>
+                Naminori</a>
+            <ul class="nav-links">
+                <li><a href="#home">ホーム</a></li>
+                <li><a href="#services">サービス</a></li>
+                <li><a href="#staff">スタッフ</a></li>
+                <li><a href="#citizenship">なみのり市民</a></li>
+                <li><a href="#access">アクセス</a></li>
+            </ul>
+        </div>
     </nav>
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
-      <a href="#home" class="block py-2 text-gray-600 hover:text-black">ホーム</a>
-      <a href="#products" class="block py-2 text-gray-600 hover:text-black">サービス</a>
-      <a href="#about" class="block py-2 text-gray-600 hover:text-black">会社情報</a>
-      <a href="#contact" class="block mt-2 px-4 py-2 rounded-full text-white accent-bg hover:accent-bg-darker transition-colors text-center">問い合わせ</a>
-    </div>
-  </header>
 
-  <main>
-    <!-- Hero Section: Accordion Slider -->
-    <section id="home" class="accordion-container">
-      <div class="accordion-panel active" style="background-image: url('./aaa.png');">
-        <h3>ウエディングフォト/ムービー/アイテム</h3>
-      </div>
-      <div class="accordion-panel" style="background-image: url('./bbb.png');">
-        <h3>オリジナルグッズやペット七五三</h3>
-      </div>
-      <div class="accordion-panel" style="background-image: url('./ccc.png');">
-        <h3>メンカラグッズや推し活ウェディング</h3>
-      </div>
+    <!-- ヒーローセクション -->
+    <section id="home" class="hero">
+        <div class="hero-slider">
+            <div class="hero-slide active" style="background-image: url(./aaa.png);"></div>
+            <div class="hero-slide" style="background-image: url(./bbb.png);"></div>
+            <div class="hero-slide" style="background-image: url(./ccc.png);"></div>
+        </div>
+        <div class="hero-content">
+            <h1>想い出をカタチに</h1>
+            <p>想い出の場所を第二のふるさとに<br>
+            シニアの・シニアによる・シニアのための新たなつながり</p>
+            <a href="#services" class="cta-button">サービスを見る</a>
+        </div>
+        <div class="hero-indicators">
+            <span class="indicator active" data-slide="0"></span>
+            <span class="indicator" data-slide="1"></span>
+            <span class="indicator" data-slide="2"></span>
+        </div>
+        <button class="hero-nav prev" onclick="changeSlide(-1)">‹</button>
+        <button class="hero-nav next" onclick="changeSlide(1)">›</button>
     </section>
 
-    <!-- Products Section -->
-    <section id="products" class="py-20">
-      <div class="container mx-auto px-6">
-        <h2 class="text-4xl font-bold text-center text-gray-800 mb-2">提供するサービス</h2>
-        <p class="text-center text-gray-600 mb-12">
-          思い出を形にし、思い出の場所を第二のふるさとにするビジネス
-        </p>
-        <div id="product-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <!-- Product Card 1 -->
-          <div class="product-card bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
-            <img src="./a.png" alt="Alpine Hike">
-            <div class="p-6">
-              <h3 class="text-xl font-bold mb-2">ウエディングフォト/ムービー</h3>
-              <p class="text-gray-600 mb-4 product-description">ウエディングフォト/ムービー/アイテムなど家族に関わるビジネス</p>
-              <button class="book-now-btn w-full px-4 py-2 rounded-full text-white accent-bg hover:accent-bg-darker transition-colors" data-price="¥200,000〜">予約</button>
+    <!-- サービス紹介 -->
+    <section id="services" class="section services">
+        <h2>私たちのサービス</h2>
+        <div class="services-grid">
+            <div class="service-card fade-in" style="background-image: url('./a.png');">
+                <div class="service-icon">💒</div>
+                <h3>ウェディング部門</h3>
+                <p>美しい海辺でのフォトウェディング。地元住民からの心温まるお祝いメッセージと共に、一生の思い出をカタチにします。平均30万円で、月に10組のカップルの特別な日をお手伝いしています。</p>
             </div>
-          </div>
-          <!-- Product Card 2 -->
-          <div class="product-card bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
-            <img src="./b.png" alt="Coastal Getaway">
-            <div class="p-6">
-              <h3 class="text-xl font-bold mb-2">オリジナルグッズやペット七五三</h3>
-              <p class="text-gray-600 mb-4 product-description">オリジナルグッズやペット七五三など家族に関わるビジネス</p>
-              <button class="book-now-btn w-full px-4 py-2 rounded-full text-white accent-bg hover:accent-bg-darker transition-colors" data-price="¥20,000〜">予約</button>
+            <div class="service-card fade-in" style="background-image: url('./b.png');">
+                <div class="service-icon">🐕</div>
+                <h3>ペット部門</h3>
+                <p>愛犬・愛猫のためのオーダーメイドグッズ制作。パジャマ、キーケース、スマホケースなど、世界に一つだけの特別なアイテムを。ペットツアーや七五三プランもご用意しています。</p>
             </div>
-          </div>
-          <!-- Product Card 3 -->
-          <div class="product-card bg-white rounded-lg shadow-lg overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
-            <img src="./c.png" alt="City Explorer">
-            <div class="p-6">
-              <h3 class="text-xl font-bold mb-2">メンカラグッズや推し活ウェディング</h3>
-              <p class="text-gray-600 mb-4 product-description">メンカラグッズや推し活ウェディングになど推し活に関するビジネスを展開</p>
-              <button class="book-now-btn w-full px-4 py-2 rounded-full text-white accent-bg hover:accent-bg-darker transition-colors" data-price="¥5,000~">予約</button>
+            <div class="service-card fade-in" style="background-image: url('./d.png');">
+                <div class="service-icon">🏠</div>
+                <h3>ふるさと創生事業</h3>
+                <p>月額500円で「なみのり市民」に。地域外の方々に第二のふるさとを提供し、限定コミュニティや現地イベントへの参加権利など、特別な体験をお届けします。</p>
             </div>
-          </div>
         </div>
-      </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="bg-gray-50 py-20">
-      <div class="container mx-auto px-6">
-        <h2 class="text-4xl font-bold text-center text-gray-800 mb-12"> 
-          Naminoriがお届けしたい世界観
-        </h2>
-        <div class="max-w-3xl mx-auto text-center text-gray-600 text-lg mb-16">
-          <p>毎日、仕事に勉強に忙しい御子さん。唯一の癒やしは愛娘（犬）のポチちゃん。ポチちゃんのグッズを求めて検索をしたら、「なみのり人生」のパーソナライズグッズに出会いました。ポチちゃんとの思い出を形にしてもらいホクホク。グッズと一緒に御宿の方からのお手紙をいただいて心がじんわりしました。案内にあったポチちゃんの七五三を御宿で…。その後、素敵な人とも巡り会えてウェディングフォトを御宿のビーチで行い、家族３人は今では御宿なみのりバーチャル市民です。</p>
-        </div>
-        <h3 class="text-3xl font-bold text-center text-gray-800 mb-12">メンバー</h3>
-        <div class="flex flex-wrap justify-center gap-12">
-          <!-- Team Member 1 -->
-          <div class="text-center">
-            <img src="https://placehold.co/128x128/e2e8f0/333?text=KI" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md" alt="Jane Doe">
-            <h4 class="text-xl font-bold">Kanehisa Izumi</h4>
-            <p class="text-gray-500">Co-Founder</p>
-          </div>
-          <!-- Team Member 2 -->
-          <div class="text-center">
-            <img src="https://placehold.co/128x128/e2e8f0/333?text=MY" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md" alt="John Smith">
-            <h4 class="text-xl font-bold">Moriya Yuki</h4>
-            <p class="text-gray-500">Co-Founder</p>
-          </div>
-          <!-- Team Member 3 -->
-          <div class="text-center">
-            <img src="https://placehold.co/128x128/e2e8f0/333?text=OT" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md" alt="Emily Stone">
-            <h4 class="text-xl font-bold">Ozawa Tomoko</h4>
-            <p class="text-gray-500">Co-Founder</p>
-          </div>
-           <!-- Team Member 4 -->
-          <div class="text-center">
-            <img src="https://placehold.co/128x128/e2e8f0/333?text=SY" class="w-32 h-32 rounded-full mx-auto mb-4 shadow-md" alt="Emily Stone">
-            <h4 class="text-xl font-bold">Shao Yulu</h4>
-            <p class="text-gray-500">Co-Founder</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="py-20">
-      <div class="container mx-auto px-6 text-center">
-        <h2 class="text-4xl font-bold text-gray-800 mb-4">お気軽にご質問・ご相談ください</h2>
-        <p class="text-gray-600 mb-8">better_life@naminori.co.jp</p>
-        <a href="mailto:contact@aura.com" class="inline-block px-8 py-4 rounded-full text-white accent-bg hover:accent-bg-darker transition-colors text-lg font-semibold">問い合わせ</a>
-      </div>
-    </section>
-  </main>
-
-  <!-- Footer -->
-  <footer class="bg-gray-800 text-white py-8">
-    <div class="container mx-auto px-6 text-center">
-      <p>&copy; 2025 なみのり人生株式会社. All Rights Reserved.</p>
-    </div>
-  </footer>
-
-  <!-- Product Detail Modal -->
-  <div id="product-modal" class="modal fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 invisible opacity-0">
-    <div id="modal-content" class="modal-content bg-white rounded-lg shadow-2xl w-11/12 md:w-3/4 lg:w-1/2 max-w-4xl mx-auto transform scale-95">
-      <div class="relative">
-        <!-- Close Button -->
-        <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 z-10">
-          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
-        </button>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-0">
-          <!-- Modal Image -->
-          <div>
-            <img id="modal-img" src="" class="w-full h-full object-cover rounded-l-lg" alt="Product Image">
-          </div>
-          <!-- Modal Details -->
-          <div class="p-8 flex flex-col justify-center">
-            <h2 id="modal-title" class="text-3xl font-bold mb-4">Product Title</h2>
-            <p id="modal-description" class="text-gray-600 mb-6">Product description goes here.</p>
-            <div class="flex items-baseline mb-8">
-              <span id="modal-price" class="text-3xl font-bold text-gray-800 mr-2">$0</span>
-              <span class="text-gray-500">/ package</span>
+    <!-- スタッフ紹介 -->
+    <section id="staff" class="section">
+        <h2>プロフェッショナルなシニアスタッフ</h2>
+        <div class="staff-grid">
+            <div class="staff-card fade-in">
+                <div class="staff-image">👩‍🦳</div>
+                <div class="staff-info">
+                    <h3>田中 よしえ（67歳）</h3>
+                    <p>元アパレルデザイナー。40年の経験を活かし、オーダーメイドグッズの制作を担当。お客様一人ひとりの想いを丁寧にカタチにします。</p>
+                </div>
             </div>
-            <button class="w-full py-3 rounded-full text-white accent-bg hover:accent-bg-darker transition-colors font-bold text-lg">購入へ</button>
-          </div>
+            <div class="staff-card fade-in">
+                <div class="staff-image">👨‍🦳</div>
+                <div class="staff-info">
+                    <h3>佐藤 太郎（72歳）</h3>
+                    <p>元写真スタジオ経営者。豊富な撮影経験で、最高の瞬間を切り取ります。海の美しさを知り尽くした地元愛あふれるフォトグラファー。</p>
+                </div>
+            </div>
+            <div class="staff-card fade-in">
+                <div class="staff-image">👩‍🦳</div>
+                <div class="staff-info">
+                    <h3>山田 花子（69歳）</h3>
+                    <p>元客室乗務員。おもてなしの心を大切に、お客様との丁寧なコミュニケーションを通じて、最高のサービスを提供します。</p>
+                </div>
+            </div>
+            <!-- <div class="staff-card fade-in">
+                <div class="staff-image">👨‍🦳</div>
+                <div class="staff-info">
+                    <h3>鈴木 一郎（75歳）</h3>
+                    <p>元大工職人。手作りの温もりを大切に、木工アイテムの制作を担当。50年以上の技術で、世界に一つだけの作品を生み出します。</p>
+                </div>
+            </div> -->
         </div>
-      </div>
-    </div>
-  </div>
+    </section>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // --- Accordion Slider Logic ---
-      const panels = document.querySelectorAll('.accordion-panel');
-      let currentActiveIndex = 0; // The first panel is active by default in the HTML
-      let autoplayInterval;
+    <!-- なみのり市民 -->
+    <section id="citizenship" class="section citizenship">
+        <h2>なみのり市民になろう</h2>
+        <div class="citizenship-content">
+            <p>月額500円で、勝浦・御宿の「なみのり市民」に！<br>
+            地域外の方も、第二のふるさとを持つことができます。</p>
+            
+            <div class="citizenship-benefits">
+                <div class="benefit-item fade-in">
+                    <div class="benefit-icon">🎪</div>
+                    <h3>限定イベント</h3>
+                    <p>市民限定のイベントや体験ツアーに優先招待</p>
+                </div>
+                <div class="benefit-item fade-in">
+                    <div class="benefit-icon">💌</div>
+                    <h3>なみのり便り</h3>
+                    <p>地域の最新情報や季節の便りを月1回お届け</p>
+                </div>
+                <div class="benefit-item fade-in">
+                    <div class="benefit-icon">🏪</div>
+                    <h3>特別割引</h3>
+                    <p>提携店舗での特別割引や限定商品の購入権利</p>
+                </div>
+                <div class="benefit-item fade-in">
+                    <div class="benefit-icon">🎁</div>
+                    <h3>月1回抽選</h3>
+                    <p>地域の特産品や手作りグッズが当たる抽選会</p>
+                </div>
+            </div>
+            
+            <a href="#" class="cta-button">今すぐ市民登録</a>
+        </div>
+    </section>
 
-      function setActivePanel(index) {
-        // Remove the 'active' class from all panels
-        panels.forEach(p => p.classList.remove('active'));
-        // Add the 'active' class to the target panel
-        panels[index].classList.add('active');
-      }
+    <!-- アクセス -->
+    <section id="access" class="section access">
+        <h2>アクセス・お問い合わせ</h2>
+        <div class="access-content">
+            <div class="access-info fade-in">
+                <h3>📍 所在地</h3>
+                <p>〒299-5102<br>
+                千葉県勝浦市松野1234-5<br>
+                なみのり人生株式会社</p>
+                
+                <h3>📞 お問い合わせ</h3>
+                <p>TEL: 0470-12-3456<br>
+                Email: info@naminori-life.com</p>
+                
+                <h3>🚗 アクセス</h3>
+                <p>JR外房線「勝浦駅」より徒歩15分<br>
+                または「御宿駅」より車で10分<br>
+                東京から約90分のアクセス</p>
+                
+                <h3>⏰ 営業時間</h3>
+                <p>平日: 9:00 - 18:00<br>
+                土日祝: 9:00 - 17:00<br>
+                定休日: 木曜日</p>
+            </div>
+            <div class="map-placeholder fade-in">
+                <!-- 🗺️ 勝浦・御宿エリア<br>
+                美しい海と自然に囲まれた場所 -->
+            </div>
+        </div>
+    </section>
 
-      function startAutoplay() {
-        // Clear any existing interval to prevent multiple loops running at once
-        clearInterval(autoplayInterval);
-        autoplayInterval = setInterval(() => {
-          // Increment the index
-          currentActiveIndex++;
-          // If the index is out of bounds, loop back to the start
-          if (currentActiveIndex >= panels.length) {
-            currentActiveIndex = 0;
-          }
-          setActivePanel(currentActiveIndex);
-        }, 5000); // Set to a 5-second interval
-      }
-      // Set up click event listeners for manual control
-      panels.forEach((panel, index) => {
-        panel.addEventListener('click', () => {
-          currentActiveIndex = index; // Set the current index to the one that was clicked
-          setActivePanel(index); // Make the clicked panel active
-          startAutoplay(); // Restart the autoplay timer from this point
-        });
-      });
-      // Kick off the autoplay when the page loads
-      startAutoplay();
-      // --- Navbar Scroll Effect ---
-      const navbar = document.getElementById('navbar');
-      window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-          navbar.classList.add('nav-scrolled');
-          navbar.classList.remove('nav-transparent');
-        } else {
-          navbar.classList.remove('nav-scrolled');
-          navbar.classList.add('nav-transparent');
+    <!-- フッター -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#">プライバシーポリシー</a>
+                <a href="#">利用規約</a>
+                <a href="#">会社概要</a>
+                <a href="#">採用情報</a>
+            </div>
+            <p>&copy; 2024 なみのり人生株式会社. All rights reserved.</p>
+            <p>「支えられる側じゃない、支える側になる」</p>
+        </div>
+    </footer>
+
+    <script>
+        // スライダー機能
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.hero-slide');
+        const indicators = document.querySelectorAll('.indicator');
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            indicators.forEach(indicator => indicator.classList.remove('active'));
+            
+            slides[index].classList.add('active');
+            indicators[index].classList.add('active');
         }
-      });
-      // --- Mobile Menu Toggle ---
-      const mobileMenuButton = document.getElementById('mobile-menu-button');
-      const mobileMenu = document.getElementById('mobile-menu');
-      mobileMenuButton.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
-      });
-      // --- Smooth Scrolling for Nav Links ---
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-          e.preventDefault();
-          // Close mobile menu if open
-          if (!mobileMenu.classList.contains('hidden')) {
-            mobileMenu.classList.add('hidden');
-          }
-          document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-          });
-        });
-      });
-      // --- Product Modal Logic ---
-      const productModal = document.getElementById('product-modal');
-      const modalContent = document.getElementById('modal-content');
-      const closeModalBtn = document.getElementById('close-modal-btn');
-      const bookNowBtns = document.querySelectorAll('.book-now-btn');
-      const modalImg = document.getElementById('modal-img');
-      const modalTitle = document.getElementById('modal-title');
-      const modalDescription = document.getElementById('modal-description');
-      const modalPrice = document.getElementById('modal-price');
-      bookNowBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const card = e.target.closest('.product-card');
-          const imgSrc = card.querySelector('img').src;
-          const title = card.querySelector('h3').innerText;
-          const description = card.querySelector('.product-description').innerText;
-          const price = e.target.dataset.price;
-          // Populate modal
-          modalImg.src = imgSrc;
-          modalTitle.innerText = title;
-          modalDescription.innerText = description;
-          modalPrice.innerText = price;
-          // Show modal
-          openModal();
-        });
-      });
 
-      function openModal() {
-        productModal.classList.remove('invisible', 'opacity-0');
-        modalContent.classList.remove('scale-95');
-        document.body.style.overflow = 'hidden'; // Prevent background scrolling
-      }
-
-      function closeModal() {
-        productModal.classList.add('invisible', 'opacity-0');
-        modalContent.classList.add('scale-95');
-        document.body.style.overflow = 'auto';
-      }
-      closeModalBtn.addEventListener('click', closeModal);
-      // Close modal if user clicks on the background overlay
-      productModal.addEventListener('click', (e) => {
-        if (e.target === productModal) {
-          closeModal();
+        function changeSlide(direction) {
+            currentSlide += direction;
+            
+            if (currentSlide >= totalSlides) {
+                currentSlide = 0;
+            } else if (currentSlide < 0) {
+                currentSlide = totalSlides - 1;
+            }
+            
+            showSlide(currentSlide);
         }
-      });
-      // Close modal with Escape key
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !productModal.classList.contains('invisible')) {
-          closeModal();
-        }
-      });
-    });
-  </script>
 
+        // インジケーターのクリックイベント
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                currentSlide = index;
+                showSlide(currentSlide);
+            });
+        });
+
+        // 自動スライド
+        setInterval(() => {
+            changeSlide(1);
+        }, 5000);
+
+        // スクロール時のナビゲーション背景変更
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // スムーススクロール
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // フェードインアニメーション
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // パーティクルアニメーション
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.width = particle.style.height = Math.random() * 10 + 5 + 'px';
+            particle.style.animationDuration = Math.random() * 3 + 2 + 's';
+            particle.style.animationDelay = Math.random() * 2 + 's';
+            
+            document.getElementById('particles').appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, 8000);
+        }
+
+        // パーティクルを定期的に生成
+        setInterval(createParticle, 300);
+
+        // 初期パーティクル生成
+        for (let i = 0; i < 50; i++) {
+            setTimeout(createParticle, i * 100);
+        }
+    </script>
 </body>
-
 </html>
