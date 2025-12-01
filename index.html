@@ -3,872 +3,506 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>なみのり人生株式会社 - 想い出をカタチに、想い出の場所を第二のふるさとに</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            overflow-x: hidden;
-        }
-
-        /* ナビゲーション */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            z-index: 1000;
-            padding: 1rem 0;
-            transition: all 0.3s ease;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        nav.scrolled {
-            background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: white;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .logo::before {
-            /* content: "🌊";
-            font-size: 1.5rem; */
-            /* background-image: url(./logo.png); */
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: white;
-            font-weight: 500;
-            transition: color 0.3s ease;
-            position: relative;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #ff6b6b;
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .nav-links a:hover {
-            color: #ff6b6b;
-        }
-
-        /* ヒーローセクション */
-        .hero {
-            height: 100vh;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-slider {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        .hero-slide {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-
-        .hero-slide.active {
-            opacity: 1;
-        }
-
-        .hero-slide::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-        }
-
-        .hero-slide:nth-child(1) {
-            background-image: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%),
-                              url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"><rect width="1920" height="1080" fill="%23667eea"/><circle cx="960" cy="540" r="300" fill="%23764ba2" opacity="0.3"/><path d="M0,1080 Q480,800 960,1080 T1920,1080 V1080 H0 Z" fill="%23fff" opacity="0.1"/></svg>');
-        }
-
-        .hero-slide:nth-child(2) {
-            background-image: linear-gradient(135deg, rgba(255, 107, 107, 0.8) 0%, rgba(255, 154, 158, 0.8) 100%),
-                              url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"><rect width="1920" height="1080" fill="%23ff6b6b"/><circle cx="1200" cy="300" r="200" fill="%23ff9a9e" opacity="0.5"/><circle cx="400" cy="700" r="150" fill="%23ffeaa7" opacity="0.3"/><path d="M0,800 Q960,600 1920,800 V1080 H0 Z" fill="%23fff" opacity="0.1"/></svg>');
-        }
-
-        .hero-slide:nth-child(3) {
-            background-image: linear-gradient(135deg, rgba(52, 211, 153, 0.8) 0%, rgba(34, 197, 94, 0.8) 100%),
-                              url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"><rect width="1920" height="1080" fill="%2334d399"/><circle cx="600" cy="400" r="250" fill="%2322c55e" opacity="0.4"/><circle cx="1400" cy="600" r="180" fill="%23a7f3d0" opacity="0.3"/><path d="M0,900 Q480,700 960,900 T1920,900 V1080 H0 Z" fill="%23fff" opacity="0.1"/></svg>');
-        }
-
-        .hero-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            color: white;
-            z-index: 10;
-            max-width: 800px;
-            padding: 2rem;
-        }
-
-        .hero-indicators {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 1rem;
-            z-index: 10;
-        }
-
-        .indicator {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.5);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .indicator.active {
-            background: white;
-            transform: scale(1.2);
-        }
-
-        .hero-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            font-size: 2rem;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 10;
-            backdrop-filter: blur(10px);
-        }
-
-        .hero-nav:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-50%) scale(1.1);
-        }
-
-        .hero-nav.prev {
-            left: 30px;
-        }
-
-        .hero-nav.next {
-            right: 30px;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-
-        .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background: #ff6b6b;
-            color: white;
-            padding: 1rem 2rem;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
-        }
-
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
-        }
-
-        /* セクション共通スタイル */
-        .section {
-            padding: 5rem 0;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: #2563eb;
-            position: relative;
-        }
-
-        .section h2::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 3px;
-            background: #ff6b6b;
-        }
-
-        /* サービス紹介 */
-        .services {
-            background: #f8fafc;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            padding: 0 2rem;
-        }
-
-        .service-card {
-            /* background: white; */
-            padding: 2rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-
-        .service-card::before {
-            /* content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #667eea, #764ba2); */
-            content: "";
-            position: absolute;
-            inset: 0; /* 等同于 top: 0; right: 0; bottom: 0; left: 0; */
-            background: rgba(255, 255, 255, 0.85); /* 半透明黑色遮罩 */
-            z-index: 1;
-        }
-
-        .service-card > * {
-            position: relative;
-            z-index: 2; /* 确保内容在遮罩层之上 */
-        }
-
-        .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-        }
-
-        .service-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .service-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: #2563eb;
-        }
-
-        .service-card p {
-            color: #000;
-            line-height: 1.8;
-        }
-
-        /* スタッフ紹介 */
-        .staff-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            padding: 0 2rem;
-        }
-
-        .staff-card {
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .staff-card:hover {
-            transform: scale(1.05);
-        }
-
-        .staff-image {
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
-            color: white;
-        }
-
-        .staff-info {
-            padding: 1.5rem;
-        }
-
-        .staff-info h3 {
-            color: #2563eb;
-            margin-bottom: 0.5rem;
-        }
-
-        .staff-info p {
-            color: #666;
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        /* なみのり市民 */
-        .citizenship {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-align: center;
-        }
-
-        .citizenship h2 {
-            color: white;
-        }
-
-        .citizenship-content {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .citizenship-benefits {
-            /* display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0; */
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* 两列 */
-            grid-template-rows: repeat(2, auto);   /* 两行，根据内容自动高度 */
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .benefit-item {
-            font-size: larger;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 1.5rem;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-
-        .benefit-item:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-5px);
-        }
-
-        .benefit-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        /* アクセス */
-        .access {
-            background: #f8fafc;
-        }
-
-        .access-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            padding: 0 2rem;
-        }
-
-        .access-info {
-            background: white;
-            padding: 2rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .access-info h3 {
-            color: #2563eb;
-            margin-bottom: 1rem;
-        }
-
-        .map-placeholder {
-            /* background: #e2e8f0; */
-            background-image: url(./ddd.png);
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            /* height: 300px; */
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666;
-            font-size: 1.2rem;
-        }
-
-        /* フッター */
-        footer {
-            background: #1a202c;
-            color: white;
-            text-align: center;
-            padding: 3rem 0;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .footer-links a {
-            color: white;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links a:hover {
-            color: #667eea;
-        }
-
-        /* レスポンシブデザイン */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .hero p {
-                font-size: 1.1rem;
-            }
-
-            .section {
-                padding: 3rem 0;
-            }
-
-            .section h2 {
-                font-size: 2rem;
-            }
-
-            .access-content {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-links {
-                flex-direction: column;
-                gap: 1rem;
-            }
-        }
-
-        /* スクロールアニメーション */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* パーティクルアニメーション */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .particle {
-            position: absolute;
-            background: rgba(102, 126, 234, 0.1);
-            border-radius: 50%;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
-        }
-    </style>
+    <title>Shao Yulu - Backend Engineer × Data Scientist</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- パーティクル背景 -->
-    <div class="particles" id="particles"></div>
-
-    <!-- ナビゲーション -->
-    <nav id="navbar">
+    <!-- Navigation -->
+    <nav class="nav">
         <div class="nav-container">
-            <a href="#" class="logo">
-                <img src="./logo.png" style="width: 2rem;"/>
-                Naminori</a>
-            <ul class="nav-links">
-                <li><a href="#home">ホーム</a></li>
-                <li><a href="#services">サービス</a></li>
-                <li><a href="#staff">スタッフ</a></li>
-                <li><a href="#citizenship">なみのり市民</a></li>
-                <li><a href="#access">アクセス</a></li>
-                <!-- <iframe src="./market.html" width="100%" height="500px" frameborder="0"></iframe> -->
-            </ul>
+            <div class="nav-logo">SHAO YULU</div>
+            <div class="nav-right">
+                <div class="language-switcher">
+                    <button class="lang-btn active" data-lang="ja">日本語</button>
+                    <button class="lang-btn" data-lang="en">English</button>
+                    <button class="lang-btn" data-lang="zh">中文</button>
+                </div>
+               <!--  <a href="#" class="download-btn" id="downloadBtn">
+                    <span class="download-icon">↓</span>
+                    <span data-i18n="nav.resume">履歴書</span>
+                </a> -->
+            </div>
         </div>
     </nav>
 
-    <!-- ヒーローセクション -->
-    <section id="home" class="hero">
-        <div class="hero-slider">
-            <div class="hero-slide active" style="background-image: url(./aaa.png);"></div>
-            <div class="hero-slide" style="background-image: url(./bbb.png);"></div>
-            <div class="hero-slide" style="background-image: url(./ccc.png);"></div>
-        </div>
-        <div class="hero-content">
-            <h1>想い出をカタチに</h1>
-            <p>想い出の場所を第二のふるさとに<br>
-            シニアの・シニアによる・シニアのための新たなつながり</p>
-            <a href="#services" class="cta-button">サービスを見る</a>
-        </div>
-        <div class="hero-indicators">
-            <span class="indicator active" data-slide="0"></span>
-            <span class="indicator" data-slide="1"></span>
-            <span class="indicator" data-slide="2"></span>
-        </div>
-        <button class="hero-nav prev" onclick="changeSlide(-1)">‹</button>
-        <button class="hero-nav next" onclick="changeSlide(1)">›</button>
-    </section>
-
-    <!-- サービス紹介 -->
-    <section id="services" class="section services">
-        <h2>私たちのサービス</h2>
-        <div class="services-grid">
-            <div class="service-card fade-in" style="background-image: url('./a.png');">
-                <div class="service-icon">💒</div>
-                <h3>ウェディング部門</h3>
-                <p>美しい海辺でのフォトウェディング。地元住民からの心温まるお祝いメッセージと共に、一生の思い出をカタチにします。平均30万円で、月に10組のカップルの特別な日をお手伝いしています。</p>
-            </div>
-            <div class="service-card fade-in" style="background-image: url('./b.png');">
-                <div class="service-icon">🐕</div>
-                <h3>ペット部門</h3>
-                <p>愛犬・愛猫のためのオーダーメイドグッズ制作。パジャマ、キーケース、スマホケースなど、世界に一つだけの特別なアイテムを。ペットツアーや七五三プランもご用意しています。</p>
-            </div>
-            <div class="service-card fade-in" style="background-image: url('./d.png');">
-                <div class="service-icon">🏠</div>
-                <h3>ふるさと創生事業</h3>
-                <p>月額500円で「なみのり市民」に。地域外の方々に第二のふるさとを提供し、限定コミュニティや現地イベントへの参加権利など、特別な体験をお届けします。</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- スタッフ紹介 -->
-    <section id="staff" class="section">
-        <h2>プロフェッショナルなシニアスタッフ</h2>
-        <div class="staff-grid">
-            <div class="staff-card fade-in">
-                <div class="staff-image">👩‍🦳</div>
-                <div class="staff-info">
-                    <h3>田中 よしえ（67歳）</h3>
-                    <p>元アパレルデザイナー。40年の経験を活かし、オーダーメイドグッズの制作を担当。お客様一人ひとりの想いを丁寧にカタチにします。</p>
-                </div>
-            </div>
-            <div class="staff-card fade-in">
-                <div class="staff-image">👨‍🦳</div>
-                <div class="staff-info">
-                    <h3>佐藤 太郎（72歳）</h3>
-                    <p>元写真スタジオ経営者。豊富な撮影経験で、最高の瞬間を切り取ります。海の美しさを知り尽くした地元愛あふれるフォトグラファー。</p>
-                </div>
-            </div>
-            <div class="staff-card fade-in">
-                <div class="staff-image">👩‍🦳</div>
-                <div class="staff-info">
-                    <h3>山田 花子（69歳）</h3>
-                    <p>元客室乗務員。おもてなしの心を大切に、お客様との丁寧なコミュニケーションを通じて、最高のサービスを提供します。</p>
-                </div>
-            </div>
-            <!-- <div class="staff-card fade-in">
-                <div class="staff-image">👨‍🦳</div>
-                <div class="staff-info">
-                    <h3>鈴木 一郎（75歳）</h3>
-                    <p>元大工職人。手作りの温もりを大切に、木工アイテムの制作を担当。50年以上の技術で、世界に一つだけの作品を生み出します。</p>
-                </div>
-            </div> -->
-        </div>
-    </section>
-
-    <!-- なみのり市民 -->
-    <section id="citizenship" class="section citizenship">
-        <h2>なみのり市民になろう</h2>
-        <div class="citizenship-content">
-            <p>月額500円で、勝浦・御宿の「なみのり市民」に！<br>
-            地域外の方も、第二のふるさとを持つことができます。</p>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1 class="hero-title">邵 豫魯（ショウヨロ）</h1>
+            <h2 class="hero-subtitle">Backend Engineer × Data Scientist</h2>
             
-            <div class="citizenship-benefits">
-                <div class="benefit-item fade-in">
-                    <div class="benefit-icon">🎪</div>
-                    <h3>限定イベント</h3>
-                    <p>市民限定のイベントや体験ツアーに優先招待</p>
+            <div class="hero-highlights">
+                <div class="highlight-item">
+                    <div class="highlight-label" data-i18n="hero.utokyo">東京大学 松尾研 GCI講座修了</div>
                 </div>
-                <div class="benefit-item fade-in">
-                    <div class="benefit-icon">💌</div>
-                    <h3>なみのり便り</h3>
-                    <p>地域の最新情報や季節の便りを月1回お届け</p>
-                </div>
-                <div class="benefit-item fade-in">
-                    <div class="benefit-icon">🏪</div>
-                    <h3>特別割引</h3>
-                    <p>提携店舗での特別割引や限定商品の購入権利</p>
-                </div>
-                <div class="benefit-item fade-in">
-                    <div class="benefit-icon">🎁</div>
-                    <h3>月1回抽選</h3>
-                    <p>地域の特産品や手作りグッズが当たる抽選会</p>
+                <div class="highlight-item">
+                    <div class="highlight-label" data-i18n="hero.mba">立教大学 MBA 在学中</div>
                 </div>
             </div>
+
+            <div class="hero-tech">
+                <span>Node.js</span>
+                <span>Python</span>
+                <span>Machine Learning</span>
+                <span>AWS AI</span>
+                <span>Kubernetes</span>
+            </div>
+
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-number">6+</div>
+                    <div class="stat-label" data-i18n="hero.years">years</div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <div class="stat-number">Top 3%</div>
+                    <div class="stat-label">Kaggle</div>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label" data-i18n="hero.languages">languages</div>
+                </div>
+            </div>
+
+            <div class="hero-cta">
+                <a href="#projects" class="btn-primary" data-i18n="hero.viewProjects">プロジェクトを見る</a>
+                <a href="#about" class="btn-secondary" data-i18n="hero.about">About</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack -->
+    <section class="section" id="skills">
+        <div class="container">
+            <h2 class="section-title" data-i18n="skills.title">技術スタック</h2>
             
-            <a href="#" class="cta-button">今すぐ市民登録</a>
+            <div class="tech-grid">
+                <div class="tech-category">
+                    <h3 class="tech-category-title">Backend & Infrastructure</h3>
+                    <div class="tech-list">
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">TypeScript</span>
+                        <span class="tech-tag">Molecular.js</span>
+                        <span class="tech-tag">PHP (Laravel)</span>
+                        <span class="tech-tag">Kubernetes</span>
+                        <span class="tech-tag">Docker</span>
+                        <span class="tech-tag">Redis</span>
+                    </div>
+                </div>
+
+                <div class="tech-category">
+                    <h3 class="tech-category-title">AI & Data Science</h3>
+                    <div class="tech-list">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">scikit-learn</span>
+                        <span class="tech-tag">pandas / numpy</span>
+                        <span class="tech-tag">XGBoost / LightGBM</span>
+                        <span class="tech-tag">AWS Bedrock</span>
+                        <span class="tech-tag">OpenSearch</span>
+                        <span class="tech-tag">matplotlib</span>
+                    </div>
+                </div>
+
+                <div class="tech-category">
+                    <h3 class="tech-category-title">Database & Tools</h3>
+                    <div class="tech-list">
+                        <span class="tech-tag">MySQL</span>
+                        <span class="tech-tag">SQL Optimization</span>
+                        <span class="tech-tag">Git / GitHub</span>
+                        <span class="tech-tag">REST API</span>
+                        <span class="tech-tag">AWS Lambda</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- アクセス -->
-    <section id="access" class="section access">
-        <h2>アクセス・お問い合わせ</h2>
-        <div class="access-content">
-            <div class="access-info fade-in">
-                <h3>📍 所在地</h3>
-                <p>〒299-5102<br>
-                千葉県勝浦市松野1234-5<br>
-                なみのり人生株式会社</p>
+    <!-- Projects -->
+    <section class="section section-dark" id="projects">
+        <div class="container">
+            <h2 class="section-title" data-i18n="projects.title">プロジェクト</h2>
+
+            <!-- Data Science Projects -->
+            <div class="project-section">
+                <h3 class="project-section-title" data-i18n="projects.ds.title">AI & Data Science</h3>
                 
-                <h3>📞 お問い合わせ</h3>
-                <p>TEL: 0470-12-3456<br>
-                Email: info@naminori-life.com</p>
-                
-                <h3>🚗 アクセス</h3>
-                <p>JR外房線「勝浦駅」より徒歩15分<br>
-                または「御宿駅」より車で10分<br>
-                東京から約90分のアクセス</p>
-                
-                <h3>⏰ 営業時間</h3>
-                <p>平日: 9:00 - 18:00<br>
-                土日祝: 9:00 - 17:00<br>
-                定休日: 木曜日</p>
+                <div class="project-card">
+                    <div class="project-header">
+                        <h4 class="project-title" data-i18n="projects.ds.utokyo.title">東京大学 松尾研 機械学習プロジェクト群</h4>
+                        <span class="project-badge">2025</span>
+                    </div>
+                    <p class="project-description" data-i18n="projects.ds.utokyo.desc">
+                        データサイエンスGCI講座にて3つの実戦プロジェクトを完遂。タイタニック号生存予測でKaggle Top 3%達成。NFL Draft予測、従業員離職分析からHR戦略提案まで実施。
+                    </p>
+                    <div class="project-tech">
+                        <span>Python</span>
+                        <span>scikit-learn</span>
+                        <span>XGBoost</span>
+                        <span>LightGBM</span>
+                        <span>pandas</span>
+                        <span>matplotlib</span>
+                    </div>
+                    <div class="project-results">
+                        <div class="result-item" data-i18n="projects.ds.utokyo.result1">Kaggle Top 3%達成</div>
+                        <div class="result-item" data-i18n="projects.ds.utokyo.result2">完全なMLパイプライン構築</div>
+                        <div class="result-item" data-i18n="projects.ds.utokyo.result3">ビジネス戦略への応用</div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <h4 class="project-title" data-i18n="projects.ds.rag.title">医療RAGシステム PoC</h4>
+                        <span class="project-badge">R102 - 2025</span>
+                    </div>
+                    <p class="project-description" data-i18n="projects.ds.rag.desc">
+                        AWS Bedrock (Claude API) とOpenSearchを活用した医療カルテの知的検索システム。保険金額の自動計算機能を実装し、RAGアーキテクチャの実用性を検証。
+                    </p>
+                    <div class="project-tech">
+                        <span>Python</span>
+                        <span>AWS Bedrock</span>
+                        <span>Claude API</span>
+                        <span>OpenSearch</span>
+                        <span>RAG</span>
+                    </div>
+                    <div class="project-results">
+                        <div class="result-item" data-i18n="projects.ds.rag.result1">医療文書の知的検索実現</div>
+                        <div class="result-item" data-i18n="projects.ds.rag.result2">保険計算プロセス自動化</div>
+                        <div class="result-item" data-i18n="projects.ds.rag.result3">生成AI医療分野への応用</div>
+                    </div>
+                </div>
             </div>
-            <div class="map-placeholder fade-in">
-                <!-- 🗺️ 勝浦・御宿エリア<br>
-                美しい海と自然に囲まれた場所 -->
+
+            <!-- Backend Projects -->
+            <div class="project-section">
+                <h3 class="project-section-title" data-i18n="projects.backend.title">Backend Engineering</h3>
+                
+                <div class="project-card">
+                    <div class="project-header">
+                        <h4 class="project-title" data-i18n="projects.backend.marathon.title">マイクロサービス動画処理システム</h4>
+                        <span class="project-badge">AnyStreaming - 2019-2021</span>
+                    </div>
+                    <p class="project-description" data-i18n="projects.backend.marathon.desc">
+                        上海国際マラソン向けに2万人の参加者動画を生成する大規模システムを開発。Molecular.jsによるマイクロサービス設計、Kubernetesによる負荷分散、Redisキューによる最適化を実装。
+                    </p>
+                    <div class="project-tech">
+                        <span>Node.js</span>
+                        <span>TypeScript</span>
+                        <span>Molecular.js</span>
+                        <span>Kubernetes</span>
+                        <span>Redis</span>
+                        <span>MySQL</span>
+                    </div>
+                    <div class="project-results">
+                        <div class="result-item" data-i18n="projects.backend.marathon.result1">2万人動画生成ゼロ障害</div>
+                        <div class="result-item" data-i18n="projects.backend.marathon.result2">タスク1/1000圧縮アルゴリズム</div>
+                        <div class="result-item" data-i18n="projects.backend.marathon.result3">マイクロサービス高可用性</div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <h4 class="project-title" data-i18n="projects.backend.kyc.title">KYC デジタル化システム</h4>
+                        <span class="project-badge">Kangaroo IT - 2021-2024</span>
+                    </div>
+                    <p class="project-description" data-i18n="projects.backend.kyc.desc">
+                        外国為替事業者向けCRMシステムのKYCプロセスを完全デジタル化。書類提出から審査までの自動記録化、PDF自動生成機能を実装し、顧客企業の新規ユーザー獲得率を大幅改善。
+                    </p>
+                    <div class="project-tech">
+                        <span>Node.js</span>
+                        <span>TypeScript</span>
+                        <span>MySQL</span>
+                        <span>Queue</span>
+                        <span>PDF Generation</span>
+                    </div>
+                    <div class="project-results">
+                        <div class="result-item" data-i18n="projects.backend.kyc.result1">月間新規ユーザー 2-3倍増</div>
+                        <div class="result-item" data-i18n="projects.backend.kyc.result2">審査プロセス90%自動化</div>
+                        <div class="result-item" data-i18n="projects.backend.kyc.result3">マルチテナント対応</div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <h4 class="project-title" data-i18n="projects.backend.medical.title">医療系システム認証 & 最適化</h4>
+                        <span class="project-badge">R102 - 2025</span>
+                    </div>
+                    <p class="project-description" data-i18n="projects.backend.medical.desc">
+                        公衆衛生システムにTOTP二段階認証を導入し、セキュリティを強化。ファイル共有管理モジュールの開発、SQL最適化によりデータ処理速度を30%向上。
+                    </p>
+                    <div class="project-tech">
+                        <span>PHP</span>
+                        <span>CodeIgniter</span>
+                        <span>MySQL</span>
+                        <span>TOTP Auth</span>
+                    </div>
+                    <div class="project-results">
+                        <div class="result-item" data-i18n="projects.backend.medical.result1">二段階認証実装</div>
+                        <div class="result-item" data-i18n="projects.backend.medical.result2">処理速度30%向上</div>
+                        <div class="result-item" data-i18n="projects.backend.medical.result3">セキュリティ強化</div>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <h4 class="project-title" data-i18n="projects.backend.sns.title">SNS チャットルーム & AWS最適化</h4>
+                        <span class="project-badge">Nirvana - 2018-2019</span>
+                    </div>
+                    <p class="project-description" data-i18n="projects.backend.sns.desc">
+                        株式トレーダー向けSNSプラットフォームのチャットルームモジュールを開発。AWS Lambdaを活用したDirty Wordフィルタリングで処理速度を50%改善。
+                    </p>
+                    <div class="project-tech">
+                        <span>Node.js</span>
+                        <span>TypeScript</span>
+                        <span>AWS Lambda</span>
+                        <span>WebSocket</span>
+                    </div>
+                    <div class="project-results">
+                        <div class="result-item" data-i18n="projects.backend.sns.result1">処理時間50%削減</div>
+                        <div class="result-item" data-i18n="projects.backend.sns.result2">高負荷時の安定性向上</div>
+                        <div class="result-item" data-i18n="projects.backend.sns.result3">Serverless最適化</div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- フッター -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-links">
-                <a href="#">プライバシーポリシー</a>
-                <a href="#">利用規約</a>
-                <a href="#">会社概要</a>
-                <a href="#">採用情報</a>
-                <a href="./market.html">マーケット</a>
+    <!-- Experience -->
+    <section class="section" id="experience">
+        <div class="container">
+            <h2 class="section-title" data-i18n="experience.title">職務経歴</h2>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2025.5 - 2025.10</div>
+                    <div class="timeline-content">
+                        <h4 class="timeline-company">R102株式会社</h4>
+                        <div class="timeline-location" data-i18n="experience.r102.location">東京</div>
+                        <p class="timeline-role" data-i18n="experience.r102.role">ソフトウェアエンジニア (アルバイト)</p>
+                        <div class="timeline-tech">
+                            <span>PHP</span>
+                            <span>Python</span>
+                            <span>AWS Bedrock</span>
+                            <span>OpenSearch</span>
+                            <span>MySQL</span>
+                        </div>
+                        <ul class="timeline-achievements">
+                            <li data-i18n="experience.r102.achievement1">医療RAGシステムPoC開発</li>
+                            <li data-i18n="experience.r102.achievement2">TOTP二段階認証実装</li>
+                            <li data-i18n="experience.r102.achievement3">データ処理速度30%向上</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">2021.8 - 2024.6</div>
+                    <div class="timeline-content">
+                        <h4 class="timeline-company">Kangaroo IT Solutions</h4>
+                        <div class="timeline-location" data-i18n="experience.kangaroo.location">上海、中国</div>
+                        <p class="timeline-role" data-i18n="experience.kangaroo.role">バックエンドエンジニア</p>
+                        <div class="timeline-tech">
+                            <span>Node.js</span>
+                            <span>TypeScript</span>
+                            <span>MySQL</span>
+                            <span>Queue</span>
+                        </div>
+                        <ul class="timeline-achievements">
+                            <li data-i18n="experience.kangaroo.achievement1">外国為替CRMシステム開発</li>
+                            <li data-i18n="experience.kangaroo.achievement2">KYCプロセス完全デジタル化</li>
+                            <li data-i18n="experience.kangaroo.achievement3">月間新規ユーザー2-3倍増加</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">2019.2 - 2021.7</div>
+                    <div class="timeline-content">
+                        <h4 class="timeline-company">AnyStreaming</h4>
+                        <div class="timeline-location" data-i18n="experience.anystreaming.location">上海、中国</div>
+                        <p class="timeline-role" data-i18n="experience.anystreaming.role">バックエンドエンジニア</p>
+                        <div class="timeline-tech">
+                            <span>Node.js</span>
+                            <span>TypeScript</span>
+                            <span>Molecular.js</span>
+                            <span>Kubernetes</span>
+                            <span>Redis</span>
+                        </div>
+                        <ul class="timeline-achievements">
+                            <li data-i18n="experience.anystreaming.achievement1">メディア向け動画処理システム開発</li>
+                            <li data-i18n="experience.anystreaming.achievement2">上海国際マラソン 2万人動画生成</li>
+                            <li data-i18n="experience.anystreaming.achievement3">マイクロサービス設計実装</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">2018.7 - 2019.1</div>
+                    <div class="timeline-content">
+                        <h4 class="timeline-company">Nirvana Information</h4>
+                        <div class="timeline-location" data-i18n="experience.nirvana.location">上海、中国</div>
+                        <p class="timeline-role" data-i18n="experience.nirvana.role">バックエンドエンジニア</p>
+                        <div class="timeline-tech">
+                            <span>Node.js</span>
+                            <span>TypeScript</span>
+                            <span>AWS Lambda</span>
+                        </div>
+                        <ul class="timeline-achievements">
+                            <li data-i18n="experience.nirvana.achievement1">SNSプラットフォーム開発</li>
+                            <li data-i18n="experience.nirvana.achievement2">AWS Lambda性能最適化</li>
+                            <li data-i18n="experience.nirvana.achievement3">処理速度50%向上</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <p>&copy; 2024 なみのり人生株式会社. All rights reserved.</p>
-            <p>「支えられる側じゃない、支える側になる」</p>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section class="section section-dark" id="about">
+        <div class="container">
+            <h2 class="section-title" data-i18n="about.title">About</h2>
+            
+            <div class="about-grid">
+                <div class="about-section">
+                    <h3 class="about-subtitle" data-i18n="about.positioning.title">ポジショニング</h3>
+                    <p class="about-text" data-i18n="about.positioning.text">
+                        Backend Engineer × Data Scientist × MBA<br>
+                        技術実装力 + データ分析力 + ビジネス視点
+                    </p>
+                </div>
+
+                <div class="about-section">
+                    <h3 class="about-subtitle" data-i18n="about.education.title">学歴</h3>
+                    <div class="education-list">
+                        <div class="education-item">
+                            <div class="education-school" data-i18n="about.education.rikkyo">立教大学 ビジネスデザイン研究科 (MBA)</div>
+                            <div class="education-date">2025.4 - 現在</div>
+                        </div>
+                        <div class="education-item">
+                            <div class="education-school" data-i18n="about.education.utokyo">東京大学 松尾研究室 データサイエンスGCI講座修了</div>
+                            <div class="education-date">2025 Summer</div>
+                        </div>
+                        <div class="education-item">
+                            <div class="education-school" data-i18n="about.education.xiamen">厦門大学 コンピュータサイエンス (工学学士)</div>
+                            <div class="education-date">2021.3 - 2023.6</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-section">
+                    <h3 class="about-subtitle" data-i18n="about.strengths.title">コア競争力</h3>
+                    <ul class="strengths-list">
+                        <li data-i18n="about.strengths.backend">6年のバックエンド開発経験 (金融/メディア/医療)</li>
+                        <li data-i18n="about.strengths.ai">AI & データサイエンス (東大松尾研修了)</li>
+                        <li data-i18n="about.strengths.architecture">マイクロサービス設計 & 高並行処理</li>
+                        <li data-i18n="about.strengths.business">MBA ビジネス思考 (立教大学)</li>
+                    </ul>
+                </div>
+
+                <div class="about-section">
+                    <h3 class="about-subtitle" data-i18n="about.languages.title">言語能力</h3>
+                    <div class="language-list">
+                        <div class="language-item">
+                            <span class="language-name" data-i18n="about.languages.japanese">日本語</span>
+                            <span class="language-level">JLPT N1</span>
+                        </div>
+                        <div class="language-item">
+                            <span class="language-name" data-i18n="about.languages.english">英語</span>
+                            <span class="language-level">TOEIC 825</span>
+                        </div>
+                        <div class="language-item">
+                            <span class="language-name" data-i18n="about.languages.chinese">中国語</span>
+                            <span class="language-level" data-i18n="about.languages.native">母語</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-section">
+                    <h3 class="about-subtitle" data-i18n="about.achievements.title">主な実績</h3>
+                    <div class="achievements-grid">
+                        <div class="achievement-card">
+                            <div class="achievement-number">200-300%</div>
+                            <div class="achievement-label" data-i18n="about.achievements.kyc">KYC ユーザー増加</div>
+                        </div>
+                        <div class="achievement-card">
+                            <div class="achievement-number">20,000</div>
+                            <div class="achievement-label" data-i18n="about.achievements.marathon">動画生成ゼロ障害</div>
+                        </div>
+                        <div class="achievement-card">
+                            <div class="achievement-number">Top 3%</div>
+                            <div class="achievement-label">Kaggle</div>
+                        </div>
+                        <div class="achievement-card">
+                            <div class="achievement-number">50%</div>
+                            <div class="achievement-label" data-i18n="about.achievements.performance">性能向上</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-section">
+                    <h3 class="about-subtitle" data-i18n="about.advantages.title">差別化優位性</h3>
+                    <div class="advantages-list">
+                        <div class="advantage-item">
+                            <div class="advantage-number">1</div>
+                            <div class="advantage-content">
+                                <div class="advantage-title" data-i18n="about.advantages.triple.title">トリプルスキル</div>
+                                <div class="advantage-desc" data-i18n="about.advantages.triple.desc">Backend開発 + データサイエンス + MBA</div>
+                            </div>
+                        </div>
+                        <div class="advantage-item">
+                            <div class="advantage-number">2</div>
+                            <div class="advantage-content">
+                                <div class="advantage-title" data-i18n="about.advantages.utokyo.title">東大松尾研修了</div>
+                                <div class="advantage-desc" data-i18n="about.advantages.utokyo.desc">日本トップレベルのAI教育</div>
+                            </div>
+                        </div>
+                        <div class="advantage-item">
+                            <div class="advantage-number">3</div>
+                            <div class="advantage-content">
+                                <div class="advantage-title" data-i18n="about.advantages.experience.title">実戦経験豊富</div>
+                                <div class="advantage-desc" data-i18n="about.advantages.experience.desc">6年エンジニアリング + 実際のAIシステム開発</div>
+                            </div>
+                        </div>
+                        <div class="advantage-item">
+                            <div class="advantage-number">4</div>
+                            <div class="advantage-content">
+                                <div class="advantage-title" data-i18n="about.advantages.multicultural.title">多言語・多文化</div>
+                                <div class="advantage-desc" data-i18n="about.advantages.multicultural.desc">日本語N1, TOEIC 825, 母語中国語 / 上海+東京勤務</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <div class="footer-name">SHAO YULU</div>
+                    <div class="footer-title">Backend Engineer × Data Scientist</div>
+                </div>
+                <div class="footer-right">
+                    <div class="footer-contact">
+                        <div class="contact-item">
+                            <span class="contact-label">Email:</span>
+                            <a href="mailto:liamshao1999@gmail.com">liamshao1999@gmail.com</a>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-label" data-i18n="footer.location">Location:</span>
+                            <span data-i18n="footer.tokyo">東京、日本</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Shao Yulu. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 
-    <script>
-        // スライダー機能
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.hero-slide');
-        const indicators = document.querySelectorAll('.indicator');
-        const totalSlides = slides.length;
-
-        function showSlide(index) {
-            slides.forEach(slide => slide.classList.remove('active'));
-            indicators.forEach(indicator => indicator.classList.remove('active'));
-            
-            slides[index].classList.add('active');
-            indicators[index].classList.add('active');
-        }
-
-        function changeSlide(direction) {
-            currentSlide += direction;
-            
-            if (currentSlide >= totalSlides) {
-                currentSlide = 0;
-            } else if (currentSlide < 0) {
-                currentSlide = totalSlides - 1;
-            }
-            
-            showSlide(currentSlide);
-        }
-
-        // インジケーターのクリックイベント
-        indicators.forEach((indicator, index) => {
-            indicator.addEventListener('click', () => {
-                currentSlide = index;
-                showSlide(currentSlide);
-            });
-        });
-
-        // 自動スライド
-        setInterval(() => {
-            changeSlide(1);
-        }, 5000);
-
-        // スクロール時のナビゲーション背景変更
-        window.addEventListener('scroll', () => {
-            const navbar = document.getElementById('navbar');
-            if (window.scrollY > 100) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-
-        // スムーススクロール
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // フェードインアニメーション
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.fade-in').forEach(el => {
-            observer.observe(el);
-        });
-
-        // パーティクルアニメーション
-        function createParticle() {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.width = particle.style.height = Math.random() * 10 + 5 + 'px';
-            particle.style.animationDuration = Math.random() * 3 + 2 + 's';
-            particle.style.animationDelay = Math.random() * 2 + 's';
-            
-            document.getElementById('particles').appendChild(particle);
-            
-            setTimeout(() => {
-                particle.remove();
-            }, 8000);
-        }
-
-        // パーティクルを定期的に生成
-        setInterval(createParticle, 300);
-
-        // 初期パーティクル生成
-        for (let i = 0; i < 50; i++) {
-            setTimeout(createParticle, i * 100);
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
